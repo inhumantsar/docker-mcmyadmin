@@ -9,7 +9,11 @@ ENV					JAVA_MEMORY 2048
 
 RUN					useradd mcmyadmin -m -s /bin/bash
 
-RUN					apt-get update && \
+# apt-get update was throwing hash mismatch errors during the 
+# docker hub build process, hence the clean and rm commands
+RUN					rm -rf /var/lib/apt/lists/* && \
+            apt-get clean && \
+            apt-get update && \
 						DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && \
 						apt-get -y install vim wget
 
